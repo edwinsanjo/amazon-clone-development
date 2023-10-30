@@ -1,0 +1,24 @@
+const express = require("express")
+const mongoose = require("mongoose")
+
+// importing routes
+const authRoute = require("./routes/auth.js")
+
+// initializing app
+const PORT = 3000;
+let app = express()
+
+// settings up the db
+mongoose.connect("mongodb+srv://edwin123456:edwinsanjosoji@cluster.omndo6m.mongodb.net/?retryWrites=true&w=majority")
+    .then(() => console.log("DB connected"))
+    .catch((err) => console.log(`DB connction error: ${err}`))
+
+// middlewares
+app.use(express.json({ extended: false }));
+
+// using the routes 
+app.use(authRoute)
+
+
+// listining on port
+app.listen(PORT,"0.0.0.0", () => console.log(`server running on port :${PORT} eg: http://localhost:${PORT}`))
