@@ -29,10 +29,10 @@ router.post("/api/signup", async (req, res) => {
         user = await user.save();
 
         // creating the token
-        let token = await jwt.sign(user, "sdyf093wf094gj")
+        let token = jwt.sign(user, "sdyf093wf094gj")
 
         // sending back the credentials
-        res.json({ user, token })
+        res.json({ token, ...user._doc })
 
     } catch (error) {
         // if error sending back the error
@@ -42,14 +42,27 @@ router.post("/api/signup", async (req, res) => {
 
 router.post("/api/signin", async (req, res) => {
     try {
-        let { email, password } = req.body;
         // destructuring the email and password
+        let { email, password } = req.body;
+
+        // searching db for that email and returing error
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ msg: "User with this email doesnt exist" })
+            return res.status(400).json({ msg: "User with this email doesnt exist" });
         }
+
+        // dectrypting password and checking 
+        const isMatch = await bcrypt.compare(password, user.password)
+        if (!isMatch) {
+            return res.status(400).json({ msg: "Incorrect Password." })
+        }
+
+        // generating token and sending it to user
+        const token = jwt.sign({ id: user._id }, "93ffi4jd0i2j9iwf9wonsdpoajdoioi99ooi")
+        res.json({ token, ...user._doc });
+
     } catch (error) {
-        res.status(500).json({ error: e.message })
+        res.status(500).json({ error: error.message })
     }
 
 })
