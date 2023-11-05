@@ -10,8 +10,10 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      style: const TextStyle(color: Colors.black),
       decoration: InputDecoration(
         hintText: hintText,
+        hintStyle: const TextStyle(color: Colors.black26),
         border: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.black),
         ),

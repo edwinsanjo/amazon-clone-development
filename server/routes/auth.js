@@ -3,6 +3,7 @@ const express = require("express");
 const User = require("../model/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const auth = require("../middlewares/auth");
 
 // initializing router
 const router = express.Router();
@@ -14,12 +15,12 @@ router.post("/api/signup", async (req, res) => {
 
         // checking if all needed credentials are present
         if (!name || !email || !password)
-            res.status(400).json({ msg: "missing credentials in textfilelds" })
+            return res.status(400).json({ msg: "missing credentials in textfilelds" })
 
         // checking if user with the email already exist
         const existingUser = await User.findOne({ email });
         if (existingUser)
-            res.status(400).json({ msg: "User with same email already exist!" })
+            return res.status(400).json({ msg: "User with same email already exist!" })
 
         // hasing the password given by user for security
         let newPassword = await bcrypt.hash(password, 9);
@@ -32,7 +33,7 @@ router.post("/api/signup", async (req, res) => {
         let token = jwt.sign(user, "sdyf093wf094gj")
 
         // sending back the credentials
-        res.json({ token, ...user._doc })
+        return res.json({ token, ...user._doc })
 
     } catch (error) {
         // if error sending back the error
@@ -59,12 +60,31 @@ router.post("/api/signin", async (req, res) => {
 
         // generating token and sending it to user
         const token = jwt.sign({ id: user._id }, "93ffi4jd0i2j9iwf9wonsdpoajdoioi99ooi")
-        res.json({ token, ...user._doc });
+        return res.json({ token, ...user._doc });
 
     } catch (error) {
         res.status(500).json({ error: error.message })
     }
+})
 
+router.post("/IsTokenValid", async (req, res) => {
+    try {
+        const token = req.header("x-auth-token");
+        if (!token) return res.json(false);
+        const Verified = jwt.verify(token, "93ffi4jd0i2j9iwf9wonsdpoajdoioi99ooi")
+        if (!Verified) return res.json(false);
+
+        const user = await User.findOne({ _id: Verified.id });
+        if (!user) return res.json(false);
+        return res.json(true);
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
+})
+
+router.get("/", auth, async (req, res) => {
+    const user = await User.findById(req.user);
+    return res.json({ ...user._doc, token: req.token });
 })
 
 // exporting router

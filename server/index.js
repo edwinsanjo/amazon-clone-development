@@ -1,11 +1,13 @@
 const express = require("express")
 const mongoose = require("mongoose")
+const cors = require("cors")
+const logger = require("morgan")
 
 // importing routes
 const authRoute = require("./routes/auth.js")
 
 // initializing app
-const PORT = 3000;
+const PORT = 311;
 let app = express()
 
 // settings up the db
@@ -15,10 +17,12 @@ mongoose.connect("mongodb+srv://edwin123456:edwinsanjosoji@cluster.omndo6m.mongo
 
 // middlewares
 app.use(express.json({ extended: false }));
+app.use(cors());
+app.use(logger("dev"));
 
 // using the routes 
 app.use(authRoute)
 
 
 // listining on port
-app.listen(PORT,"0.0.0.0", () => console.log(`server running on port :${PORT} eg: http://localhost:${PORT}`))
+app.listen(PORT, () => console.log(`server running on port :${PORT} eg: http://localhost:${PORT}`))

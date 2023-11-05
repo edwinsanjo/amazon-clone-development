@@ -48,6 +48,14 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
+  void signInUser() {
+    authService.signInUser(
+      context: context,
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // the widget starts here
@@ -71,7 +79,8 @@ class _AuthScreenState extends State<AuthScreen> {
                   : GlobalVariables.greyBackgroundCOlor,
               title: const Text(
                 "Create Account",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
               ),
               leading: Radio(
                 activeColor: GlobalVariables.secondaryColor,
@@ -104,8 +113,8 @@ class _AuthScreenState extends State<AuthScreen> {
                     CustomButton(
                         text: "Signup",
                         onTap: () {
-                          if(_signupFormKey.currentState!.validate()){
-                          signUpUser();
+                          if (_signupFormKey.currentState!.validate()) {
+                            signUpUser();
                           }
                         }),
                   ]),
@@ -118,7 +127,8 @@ class _AuthScreenState extends State<AuthScreen> {
                   : GlobalVariables.greyBackgroundCOlor,
               title: const Text(
                 "Sign-In",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
               ),
               leading: Radio(
                 activeColor: GlobalVariables.secondaryColor,
@@ -136,7 +146,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 padding: const EdgeInsets.all(8),
                 color: GlobalVariables.backgroundColor,
                 child: Form(
-                  key: _signupFormKey,
+                  key: _signinFormKey,
                   child: Column(children: [
                     CustomTextField(
                         controller: _emailController, hintText: "Email"),
@@ -145,7 +155,13 @@ class _AuthScreenState extends State<AuthScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    CustomButton(text: "Sign In", onTap: () {}),
+                    CustomButton(
+                        text: "Sign In",
+                        onTap: () {
+                          if (_signinFormKey.currentState!.validate()) {
+                            signInUser();
+                          }
+                        }),
                   ]),
                 ),
               ),

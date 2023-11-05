@@ -2,15 +2,14 @@ import 'dart:convert';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class User {
-  final String id;
-  final String name;
+  final String? id;
+  final String? name;
   final String email;
   final String password;
-  final String address;
-  final String type;
-  final String token;
+  final String? address;
+  final String? type;
+  final String? token;
 
-  
   User({
     required this.id,
     required this.name,
