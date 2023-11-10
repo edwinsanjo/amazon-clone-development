@@ -15,7 +15,7 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   int _page = 0;
   double bottomBarWidth = 43;
-  double bottomBarBorderWidth = 42;
+  double bottomBarBorderWidth = 5;
 
   List<Widget> pages = [
     const HomeScreen(),
@@ -35,12 +35,13 @@ class _BottomBarState extends State<BottomBar> {
       body: pages[_page],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _page,
+        backgroundColor: GlobalVariables.backgroundColor,
+        unselectedItemColor: GlobalVariables.unselectedNavBarColor,
         selectedItemColor: GlobalVariables.selectedNavBarColor,
-        unselectedItemColor: GlobalVariables.backgroundColor,
         iconSize: 28,
-        onTap: (e) => {},
+        onTap: updatePage,
         items: [
-          // Home
+          // HOME ICON
           BottomNavigationBarItem(
             icon: Container(
               width: bottomBarWidth,
@@ -58,7 +59,7 @@ class _BottomBarState extends State<BottomBar> {
             ),
             label: "",
           ),
-          // ACCOUNTS
+          // ACCOUNTS ICON
           BottomNavigationBarItem(
             icon: Container(
               width: bottomBarWidth,
@@ -76,7 +77,7 @@ class _BottomBarState extends State<BottomBar> {
             ),
             label: "",
           ),
-          // Cart
+          // CART ICON
           BottomNavigationBarItem(
             icon: Container(
               width: bottomBarWidth,
