@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/common/Widgets/bottom_bar.dart';
 import 'package:e_commerce_app/constants/global_variables.dart';
+import 'package:e_commerce_app/features/admin/screens/admin_screen.dart';
 import 'package:e_commerce_app/features/auth/screens/auth_screen.dart';
 import 'package:e_commerce_app/features/auth/services/auth_services.dart';
 import 'package:e_commerce_app/provider/user_provider.dart';
@@ -19,6 +20,8 @@ void main() {
     ),
   );
 }
+
+// TOOD: ADD CAROUSEL SLIDER
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -62,7 +65,9 @@ class _MyAppState extends State<MyApp> {
       onGenerateRoute: (settings) => generateRoute(settings),
       //The First page routing
       home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-          ? const BottomBar()
+          ? Provider.of<UserProvider>(context).user.type == "user"
+              ? const BottomBar()
+              : const AdminScreen()
           : const AuthScreen(),
     );
   }

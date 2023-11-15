@@ -6,6 +6,7 @@ import 'package:e_commerce_app/common/Widgets/bottom_bar.dart';
 import 'package:e_commerce_app/constants/error_handling.dart';
 import 'package:e_commerce_app/constants/global_variables.dart';
 import 'package:e_commerce_app/constants/utils.dart';
+import 'package:e_commerce_app/models/product.dart';
 import 'package:e_commerce_app/models/user.dart';
 import 'package:e_commerce_app/provider/user_provider.dart';
 import 'package:flutter/material.dart';
