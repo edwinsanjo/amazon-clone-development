@@ -27,6 +27,17 @@ class _PostsScreenState extends State<PostsScreen> {
     setState(() {});
   }
 
+  void deleteProduct(Product product, int index) {
+    adminServices.deleteProduct(
+      context: context,
+      product: product,
+      onSuccess: () {
+        products!.removeAt(index);
+        setState(() {});
+      },
+    );
+  }
+
   void navigateToAddProduct() {
     Navigator.pushNamed(
       context,
@@ -45,43 +56,49 @@ class _PostsScreenState extends State<PostsScreen> {
                   crossAxisCount: 2),
               itemBuilder: (context, index) {
                 final productData = products![index];
+                print(productData.name);
                 return Column(
                   children: [
                     SizedBox(
-                      height: 140,
+                      height: 132,
                       child: SingleProduct(
                         image: productData.images[0],
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            productData.name,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              productData.name,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                              style: TextStyle(color: Colors.black87),
+                            ),
                           ),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.delete_outline,
+                          IconButton(
+                            color: Colors.black87,
+                            onPressed: () => deleteProduct(productData,index),
+                            icon: const Icon(
+                              Icons.delete_outline,
+                            ),
                           ),
-                        ),
-                      ],
-                    )
+                        ],
+                      ),
+                    ),
                   ],
                 );
               },
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: navigateToAddProduct,
-              tooltip: "Add a Product",
               child: const Icon(Icons.add),
+              onPressed: navigateToAddProduct,
+              tooltip: 'Add a Product',
             ),
             floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
+                FloatingActionButtonLocation.centerFloat,
           );
   }
 }

@@ -6,6 +6,7 @@ const logger = require("morgan")
 // importing routes
 const authRoute = require("./routes/auth.js");
 const adminRoute = require("./routes/admin.js");
+const productRoute = require("./routes/product.js");
 
 // initializing app
 const PORT = 3000;
@@ -24,6 +25,7 @@ mongoose.connect("mongodb+srv://edwin123456:edwinsanjosoji@cluster.omndo6m.mongo
 // using the routes 
 app.use(authRoute);
 app.use(adminRoute);
+app.use(productRoute);
 
 
 // listining on port

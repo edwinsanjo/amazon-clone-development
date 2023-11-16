@@ -25,17 +25,19 @@ router.post("/admin/add-product", admin, async (req, res) => {
 
 router.get("/admin/get-products", admin, async (req, res) => {
     try {
-        var products = await Product.find({});
+        var products = await Product.find();
         res.json(products);
 
     } catch (error) {
-        return res.status(500).json({ error: e.message })
+        return res.status(500).json({ error: error.message })
     }
 })
 
 router.post("/admin/delete-product", admin, async (req, res) => {
     try {
         let { id } = req.body;
+        let product = await Product.findByIdAndDelete(id);
+        res.json(product);
     } catch (error) {
         return res.status(500).json({ error: e.message })
     }

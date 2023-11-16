@@ -50,13 +50,15 @@ class _MyAppState extends State<MyApp> {
       // Defining the Theme
       theme: ThemeData(
         scaffoldBackgroundColor: GlobalVariables.backgroundColor,
-        colorScheme:
-            const ColorScheme.dark(primary: GlobalVariables.secondaryColor),
+        colorScheme: const ColorScheme.light(
+          primary: GlobalVariables.secondaryColor,
+        ),
         appBarTheme: const AppBarTheme(
-            elevation: 0,
-            iconTheme: IconThemeData(
-              color: Colors.black,
-            )),
+          elevation: 0,
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+        ),
         useMaterial3: true,
       ),
       // Removing the debug banner (only for development)
