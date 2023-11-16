@@ -1,20 +1,20 @@
-import 'package:e_commerce_app/features/home/widgets/address_box.dart';
-import 'package:e_commerce_app/features/home/widgets/carousel_image.dart';
-import 'package:e_commerce_app/features/home/widgets/deal_of_day.dart';
-import 'package:e_commerce_app/features/home/widgets/top_categories.dart';
-import 'package:e_commerce_app/features/search/screens/search_screen.dart';
-import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:e_commerce_app/common/Widgets/stars.dart';
 import 'package:e_commerce_app/constants/global_variables.dart';
+import 'package:e_commerce_app/features/search/screens/search_screen.dart';
+import 'package:e_commerce_app/models/product.dart';
+import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
-  static const String routeName = "/home";
-  const HomeScreen({super.key});
+class ProductDetailsScreen extends StatefulWidget {
+  static const String routeName = "/product-details";
+  final Product product;
+  const ProductDetailsScreen({super.key, required this.product});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   void navigateToSearchScreen(String query) {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
   }
@@ -87,15 +87,47 @@ class _HomeScreenState extends State<HomeScreen> {
           ]),
         ),
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AddressBox(),
-            SizedBox(height: 10),
-            TopCategories(),
-            SizedBox(height: 10),
-            CarouselImage(),
-            DealOfDay(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(widget.product.id!),
+                  const Stars(rating: 4),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+              child: Text(
+                widget.product.name,
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              ),
+            ),
+            CarouselSlider(
+              items: widget.product.images.map(
+                (i) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Image.network(i, fit: BoxFit.cover, height: 200);
+                    },
+                  );
+                },
+              ).toList(),
+              options: CarouselOptions(
+                viewportFraction: 1,
+                height: 300,
+              ),
+            ),
+            Container(
+              color: Colors.black12,
+              height: 2,
+            ),
           ],
         ),
       ),

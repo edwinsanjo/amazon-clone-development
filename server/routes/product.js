@@ -13,4 +13,15 @@ router.get("/api/products", auth, async (req, res) => {
     }
 })
 
+router.get("/api/products/search/:name", auth, async (req, res) => {
+    try {
+        let products = await Product.find({
+            name: { $regex: req.params.name, $options: "i" },
+        });
+        return res.json(products);
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+
+    }
+})
 module.exports = router;
